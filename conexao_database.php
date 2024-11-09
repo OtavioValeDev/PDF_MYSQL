@@ -6,6 +6,20 @@ $host = 'localhost:3306'; //o certo é usar o IP do servidor, mas como é local,
 $dbname = 'biblioteca'; //qual é o nome do banco de dados a ser acessado
 $username = 'root'; //qual o nome do usuario que pode acessar o banco, o "root" é a ADM, nunca use a não ser que o sistema seja pro ADM
 $password = 'HORTETEC_115'; //qual a senha do banco??????????, isso se aplica a somente a ETEC, em casa ai depende de qual a senha do seu banco de dados
+
+//instancia o Mpdf
+$mpdf = new \Mpdf\Mpdf();
+
+//Conteudo PDF
+$html = '<h1>Bibliote-Lista de Livros</h1>
+<table border="1" cellpadding="10" cellspacing="0" width="100%">
+    <tr>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Ano de Publicação</th>
+        <th>Resumo</th>
+    </tr>';
+
 try{
 //CONEXÃO COM O BANCO DE DADOS USANDO O PDO
 $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password); //instancia a classe PDO para a conexão com o banco
@@ -22,19 +36,6 @@ $stmt->execute();
 
 //Recupera os dados dos livros presentes no SQL
 $livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-//instancia o Mpdf
-$mpdf = new \Mpdf\Mpdf();
-
-//Conteudo PDF
-$html = '<h1>Bibliote-Lista de Livros</h1>
-<table border="1" cellpadding="10" cellspacing="0" width"100%">
-    <tr>
-        <th>Título</th>
-        <th>Autor</th>
-        <th>Ano de Publicação</th>
-        <th>Resumo</th>
-    </tr>';
 
 //Alimenta a tabela com os dados do SQL
 foreach($livros as $livro){
